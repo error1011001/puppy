@@ -1,0 +1,23 @@
+"단어","뜻","예시"
+"reverse()","문자열을 거꾸로 뒤집는다.","my_list = [1, 2, 3, 4, 5]
+my_list.reverse()
+
+print(my_list)  # Output: [5, 4, 3, 2, 1]"
+"join()","두 개의 문자열을 이어붙인다.","fruits = [""apple"", ""banana"", ""orange""]
+result_string = "", "".join(fruits)
+print(result_string)  # Output: ""apple, banana, orange"""
+"lower()","문자열을 모두 소문자로 변환한다.","text = ""Hello, World!""
+lowercase_text = text.lower()
+print(lowercase_text)  # Output: ""hello, world!"""
+"strip()","문자열의 양쪽 끝에서 공백을 제거하는 함수이다.","# Example: 앞쪽 공백 제거
+text = ""   Hello, World!   ""
+left_stripped_text = text.lstrip()
+print(left_stripped_text)  # Output: ""Hello, World!   ""
+
+# Example: 뒤쪽 공백 제거
+text = ""   Hello, World!   ""
+right_stripped_text = text.rstrip()
+print(right_stripped_text)  # Output: ""   Hello, World!"""
+"replace()","문자열에서 특정 문자를 다른 문자로 대체하는 함수이다.","text = ""Hello, World!""
+new_text = text.replace(""Hello"", ""Hi"")
+print(new_text)  # Output: ""Hi, World!"""

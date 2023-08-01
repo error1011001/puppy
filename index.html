@@ -39,6 +39,7 @@
     </div>
     <button type="button" class="btn btn-primary" id="submit">Primary</button>
     <script>
+        
 
         const bodyEl = document.querySelector('.body')
 
@@ -64,11 +65,10 @@
                     {
                         answer = df.at(step,answer_col[i]);
                         bodyEl.innerHTML+=(String.format('<div class="form-check"> \
-            <input class="form-check-input" type="radio" name="flexRadioDefault{0}" id="problem{0}_{1}">\
-            <label class="form-check-label" for="flexRadioDefault{0}"> {2}',step,i,answer))
+                            <input class="form-check-input" type="radio" name="flexRadioDefault{0}" id="problem{0}_{1}">\
+                            <label class="form-check-label" for="flexRadioDefault{0}"> {2}',step,i,answer))
 
-                        bodyEl.innerHTML+=("</label>\
-        </div>");
+                        bodyEl.innerHTML+=("</label></div>");
                     }                    
                     bodyEl.innerHTML+=("</div>");
                 }
@@ -76,43 +76,51 @@
 
                 object = document.getElementById('submit');
                 object.onclick = function(){
-                console.log('onClick!!!')
-                text_to_num ={'a' : 0,'b' : 1, 'c' : 2, 'd' : 3}
-                wrongIndex = []
-                for(step = 0;step<df.index.length;step++){
-                    answer = 0
-                    //for문이 아니라 배열에서 현재 유효한 문제들 옵션을 가져와야함.
-                    for(number = 0;number<4;number++){
-                        if(document.getElementById(String.format('problem{0}_{1}',step,number)).checked ){
-                            answer = number
-                            break
+                    
+                    
+                    console.log('onClick!!!')
+                    text_to_num ={'a' : 0,'b' : 1, 'c' : 2, 'd' : 3}
+                    wrongIndex = []
+                    for(step = 0;step<df.index.length;step++){
+                        answer = 0
+                        //for문이 아니라 배열에서 현재 유효한 문제들 옵션을 가져와야함.
+                        for(number = 0;number<4;number++){
+                            if(document.getElementById(String.format('problem{0}_{1}',step,number)).checked ){
+                                answer = number
+                                break
+                            }
                         }
+                        if(text_to_num[df.at(step,'정답')] != answer)
+                            wrongIndex.push(step)
                     }
-                    if(text_to_num[df.at(step,'정답')] != answer)
-                        wrongIndex.push(step)
-                }
-                let sub_df = df.iloc({rows:wrongIndex})
-                bodyEl.innerHTML = '' // 빈 공간으로 변경
+                    df = df.iloc({rows:wrongIndex})
+                    console.log(df)
+                    console.log(df.index.length)
+                    bodyEl.innerHTML = '' // 빈 공간으로 변경
 
 
-                sub_df.resetIndex({ inplace: true }) //inplace
-                for(step = 0;step<sub_df.index.length;step++){
-                    problemText = sub_df.at(step,'문제');
-                    bodyEl.innerHTML+=(String.format("<h1>Q{0}. {1}</h1>",(step+1).toString(),problemText))
-                    for(i = 0 ;i<4;i++)
+                    if(df.index.length!=0) df.resetIndex({ inplace: true }) 
+                    if(df.index.length == 0)
                     {
-                        answer = sub_df.at(step,answer_col[i]);
-                        bodyEl.innerHTML+=(String.format('<div class="form-check"> \
-            <input class="form-check-input" type="radio" name="flexRadioDefault{0}" id="problem{0}_{1}">\
-            <label class="form-check-label" for="flexRadioDefault{0}"> {2}',step,i,answer))
-
-
-
-                        bodyEl.innerHTML+=("</label>\
-                        </div>");
-                    }                    
-                    bodyEl.innerHTML+=("</div>");
-                }
+                        console.log('done')
+                        bodyEl.innerHTML = ''
+                        bodyEl.innerHTML += ("<h1>문제 다 푸셨습니다 :)</h1>")
+                        object.style.visibility = "hidden"
+                        return
+                    }
+                    for(step = 0;step<df.index.length;step++){
+                        problemText = df.at(step,'문제');
+                        bodyEl.innerHTML+=(String.format("<h1>Q{0}. {1}</h1>",(step+1).toString(),problemText))
+                        for(i = 0 ;i<4;i++)
+                        {
+                            answer = df.at(step,answer_col[i]);
+                            bodyEl.innerHTML+=(String.format('<div class="form-check"> \
+                                <input class="form-check-input" type="radio" name="flexRadioDefault{0}" id="problem{0}_{1}">\
+                                <label class="form-check-label" for="flexRadioDefault{0}"> {2}',step,i,answer))
+                            bodyEl.innerHTML+=("</label></div>");
+                        }                    
+                        bodyEl.innerHTML+=("</div>");
+                    }
                 
                 
                 
